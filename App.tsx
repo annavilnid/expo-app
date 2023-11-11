@@ -1,19 +1,21 @@
-import React, {ReactNode} from 'react';
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, TextInput, View, Text, Keyboard, TouchableWithoutFeedback, SafeAreaView} from 'react-native';
-import {Button} from "./components/Button";
+import React from 'react';
+//import {StatusBar} from 'expo-status-bar';
+import {StyleSheet, View, Keyboard, TouchableWithoutFeedback, SafeAreaView, Text} from 'react-native';
+import {Task} from "@src/components/Task";
+import {AddItemForm} from "@src/components/common/AddItemForm";
+import {Button} from "@src/components/common/Button";
+
+export type TaskType = {
+  id: string,
+  title: string,
+  isDone: boolean,
+}
 
 export default function App() {
-  type Todolist = {
+  type TodolistType = {
     id: string,
     title: string,
     filter: string,
-  }
-
-  type Task = {
-    id: string,
-    title: string,
-    isDone: boolean,
   }
 
   const stateTodolists = [
@@ -22,47 +24,52 @@ export default function App() {
   ]
 
   const stateTasks = {
-    "1": [{id: "t1", title: "CSS", isDone: true}, {id: "t1", title: "JS", isDone: true}],
-    "2": [{id: "t1", title: "CSS", isDone: false}, {id: "t1", title: "JS", isDone: false}],
+    "1": [{id: "t11", title: "CSS", isDone: true}, {id: "t12", title: "JS", isDone: true}],
+    "2": [{id: "t21", title: "HTML", isDone: false}, {id: "t22", title: "React", isDone: false}],
   }
-  const [todolists, onChangeTodolists] = React.useState<Todolist[]>(stateTodolists);
-  const [tasks, onChangeTasks] = React.useState<{[key: string]: Task[]}>(stateTasks);
-  const [value, onChangeValue] = React.useState<string>('');
-  const onPressAddTodolist = () => {
-    onChangeTodolists([{id: 'new', title: value, filter: 'all'}, ...todolists])
-    onChangeValue('')
+  const [todolists, onChangeTodolists] = React.useState<TodolistType[]>(stateTodolists);
+  const [tasks, onChangeTasks] = React.useState<{[key: string]: TaskType[]}>(stateTasks);
+
+  const onPressAddTodolist = (value: string) => {
+    const todolistId = new Date().toString()
+    onChangeTodolists([{id: todolistId, title: value, filter: 'all'}, ...todolists])
+    onChangeTasks({...tasks, [todolistId]: []})
   }
 
-  const onChangeInputValue = (value: string) => {
-    onChangeValue(value)
+  const onPressAddTask = (todolistId: string, value: string) => {
+    const taskId = new Date().toString()
+    onChangeTasks({...tasks, [todolistId]: [{id: taskId, title: value, isDone: false},...tasks[todolistId]]})
   }
 
+  const onDeleteTask = (todolistId, taskId) => {
+    onChangeTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)})
+  }
+
+  const onPressDeleteTodolist = (todolistId) => {
+    onChangeTodolists(todolists.filter(t => t.id !== todolistId))
+  }
 
   return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={[globalStyles.border, styles.appContainer]}>
             <View style={[globalStyles.border, styles.appContainer]}>
               <SafeAreaView>
               <View style={styles.todolistForm}>
-                <TextInput
-                    style={[globalStyles.todolistForm, styles.todolistFormInput]}
-                    value={value}
-                    onChangeText={onChangeInputValue}
-                    placeholder="create todolist"/>
-                <Button iconName="add-circle-outline" onPress={onPressAddTodolist}/>
-                {/*<Button style={{ba}} title="+" onPress={onPressAddTodolist}/>*/}
+                <AddItemForm placeholder={"create todolist"} buttonHandler={onPressAddTodolist}/>
               </View>
-              {/*<View style={globalStyles.TodolistForm}>*/}
-              {/*  {todolists.map(todolist => (*/}
-              {/*      <View key={todolist.id}>*/}
-              {/*        <Text>{todolist.title}</Text>*/}
-              {/*        /!*{tasks[todolist.id].map(task => (*!/*/}
-              {/*        /!*    <View key={task.id}>*!/*/}
-              {/*        /!*      <Text>{task.title}</Text>*!/*/}
-              {/*        /!*    </View>*!/*/}
-              {/*        /!*))}*!/*/}
-              {/*      </View>*/}
-              {/*  ))}*/}
-              {/*</View>*/}
+              <View style={globalStyles.todolistList}>
+                {todolists.map(todolist => (
+                    <View key={todolist.id}>
+                      <Button  iconName={'delete'} iconSizePercent={10} onPress={()=>onPressDeleteTodolist(todolist.id)}/>
+                      <Text>{todolist.title}</Text>
+                      <AddItemForm placeholder={"add task"} buttonHandler={(value)=>onPressAddTask(todolist.id, value)}/>
+                      {tasks[todolist.id]?.map(task => (
+                          //TODO
+                          //убрать потом таски
+                          <Task key={task.id} todolistId={todolist.id} tasks={tasks} task={task} onChangeTasks={onChangeTasks} onDeleteTask={(taskId)=>onDeleteTask(todolist.id, taskId)}/>
+                      ))}
+                    </View>
+                ))}
+              </View>
               </SafeAreaView>
             </View>
           {/*</SafeAreaView>*/}
@@ -70,11 +77,11 @@ export default function App() {
   );
 }
 
-const HideKeyboard = ({children} : {children: ReactNode}) => (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      {children}
-    </TouchableWithoutFeedback>
-)
+// const HideKeyboard = ({children} : {children: ReactNode}) => (
+//     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+//       {children}
+//     </TouchableWithoutFeedback>
+// )
 
 const styles = StyleSheet.create({
   appContainer: {
@@ -100,6 +107,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: "3%",
     marginRight: "3%",
+  },
+  todolistList: {
+    flexDirection: "column",
   },
 });
 

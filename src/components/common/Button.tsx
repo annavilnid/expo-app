@@ -1,24 +1,23 @@
-import React, {Component, ReactNode} from 'react';
-import {View, StyleSheet, TouchableOpacity, Text} from "react-native";
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {StyleSheet, TouchableOpacity, Text, Dimensions} from "react-native";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type Props = {
     label?: string,
     iconName?: string,
     onPress: () => void,
-
+    iconSizePercent?: number;
 }
-export const Button: React.FC<Props> = ({label, iconName, onPress}) => {
+export const Button: React.FC<Props> = ({label, iconName, iconSizePercent, onPress}) => {
+    const windowWidth = Dimensions.get('window').width; // Получаем ширину экрана
+
+   const iconSize = iconSizePercent ? (windowWidth * iconSizePercent) / 100 : 0; // Рассчитываем размер иконки в пикселях
     return (
-        // <View style={styles.container}>
             <TouchableOpacity
                 style={styles.customBtnBG}
                 onPress={onPress}>
                 {label && <Text style={styles.customBtnText}>{label}</Text>}
-                {iconName && <Icon name={iconName} size={30} color="#ff0000" />}
+                {iconName && <Icon size={iconSize} name={iconName} color="#ff0000" />}
             </TouchableOpacity>
-        //
-        // </View>
     )
 }
 
@@ -44,5 +43,9 @@ const styles = StyleSheet.create({
         // paddingHorizontal: 1,
         // paddingVertical: 1,
         borderRadius: 50,
-    }
+    },
+    icon: {
+        // flex: 1,
+        // alignSelf: 'stretch',
+    },
 });
