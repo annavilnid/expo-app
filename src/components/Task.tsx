@@ -10,10 +10,10 @@ type Props = {
     tasks: {[key: string]: TaskType[]},
     task: TaskType,
     onChangeTasks: (tasks: {[key: string]: TaskType[]}) => void
-    onDeleteTask: (taskId: string) => void
+    onPressDeleteTask: (taskId: string) => void
 }
 
-export const Task: React.FC<Props> = ({todolistId, tasks, task, onDeleteTask, onChangeTasks}) => {
+export const Task: React.FC<Props> = ({todolistId, tasks, task, onPressDeleteTask, onChangeTasks}) => {
     const {id, title, isDone} = task
     const onPressChangeStatus = () => onChangeTasks({...tasks, [todolistId]: tasks[todolistId].map(t=> t.id === id ? {...t, isDone: !isDone}: t)})
 
@@ -27,7 +27,7 @@ export const Task: React.FC<Props> = ({todolistId, tasks, task, onDeleteTask, on
                 uncheckedIcon="circle-o"
             />
             <EditableSpan todolistId={todolistId} id={id} tasks={tasks} title={title} onChangeTasks={onChangeTasks}/>
-            <Button  iconName={'delete'} iconSizePercent={10} onPress={()=>onDeleteTask(id)}/>
+            <Button  iconName={'delete'} iconSizePercent={10} onPress={()=>onPressDeleteTask(id)}/>
         </View>
     );
 }

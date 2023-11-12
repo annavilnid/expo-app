@@ -41,7 +41,7 @@ export default function App() {
     onChangeTasks({...tasks, [todolistId]: [{id: taskId, title: value, isDone: false},...tasks[todolistId]]})
   }
 
-  const onDeleteTask = (todolistId, taskId) => {
+  const onPressDeleteTask = (todolistId, taskId) => {
     onChangeTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)})
   }
 
@@ -65,7 +65,7 @@ export default function App() {
                       {tasks[todolist.id]?.map(task => (
                           //TODO
                           //убрать потом таски
-                          <Task key={task.id} todolistId={todolist.id} tasks={tasks} task={task} onChangeTasks={onChangeTasks} onDeleteTask={(taskId)=>onDeleteTask(todolist.id, taskId)}/>
+                          <Task key={task.id} todolistId={todolist.id} tasks={tasks} task={task} onChangeTasks={onChangeTasks} onPressDeleteTask={(taskId)=>onPressDeleteTask(todolist.id, taskId)}/>
                       ))}
                     </View>
                 ))}
