@@ -24,8 +24,10 @@ export const EditableSpan: React.FC<Props> = ({ todolistId, tasks, title, onChan
     onChangeTasks({...tasks, [todolistId]: tasks[todolistId].map(t=> t.id === id ? {...t, title: editedText}: t)})
   };
 
+
   return (
     <View style={styles.container}>
+      <div></div>
       {editing ? (
         <TextInput
           style={styles.input}
