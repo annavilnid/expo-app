@@ -27,7 +27,6 @@ export const EditableSpan: React.FC<Props> = ({ todolistId, tasks, title, onChan
 
   return (
     <View style={styles.container}>
-      <div>test</div>
       {editing ? (
         <TextInput
           style={styles.input}
