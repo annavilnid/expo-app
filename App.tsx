@@ -56,6 +56,7 @@ export default function App() {
               <View style={styles.todolistForm}>
                 <AddItemForm placeholder={"create todolist"} buttonHandler={onPressAddTodolist}/>
               </View>
+                <p>hghggh</p>
               <View style={globalStyles.todolistList}>
                 {todolists.map(todolist => (
                     <View key={todolist.id}>
