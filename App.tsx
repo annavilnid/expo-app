@@ -10,7 +10,6 @@ export type TaskType = {
   title: string,
   isDone: boolean,
 }
-
 export default function App() {
   type TodolistType = {
     id: string,
@@ -52,7 +51,6 @@ export default function App() {
   return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={[globalStyles.border, styles.appContainer]}>
           <View style={[globalStyles.border, styles.appContainer]}>
-            <p>test</p>
               <SafeAreaView>
               <View style={styles.todolistForm}>
                 <AddItemForm placeholder={"create todolist"} buttonHandler={onPressAddTodolist}/>
