@@ -52,7 +52,6 @@ export default function App() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={[globalStyles.border, styles.appContainer]}>
           <View style={[globalStyles.border, styles.appContainer]}>
               <SafeAreaView>
-                <>t</>
               <View style={styles.todolistForm}>
                 <AddItemForm placeholder={"create todolist"} buttonHandler={onPressAddTodolist}/>
               </View>
