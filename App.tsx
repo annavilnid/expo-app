@@ -53,7 +53,6 @@ export default function App() {
           <View style={[globalStyles.border, styles.appContainer]}>
               <SafeAreaView>
               <View style={styles.todolistForm}>
-                <p>test</p>
                 <AddItemForm placeholder={"create todolist"} buttonHandler={onPressAddTodolist}/>
               </View>
               <View style={globalStyles.todolistList}>
