@@ -19,7 +19,6 @@ export const Task: React.FC<Props> = ({todolistId, tasks, task, onPressDeleteTas
 
     return (
         <View style={styles.container}>
-            <p>test</p>
             <CheckBox
                 checked={isDone}
                 onPress={onPressChangeStatus}
