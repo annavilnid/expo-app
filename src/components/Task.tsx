@@ -26,6 +26,7 @@ export const Task: React.FC<Props> = ({todolistId, tasks, task, onPressDeleteTas
                 checkedIcon="dot-circle-o"
                 uncheckedIcon="circle-o"
             />
+            <>test</>
             <EditableSpan todolistId={todolistId} id={id} tasks={tasks} title={title} onChangeTasks={onChangeTasks}/>
             <Button  iconName={'delete'} iconSizePercent={10} onPress={()=>onPressDeleteTask(id)}/>
         </View>
